@@ -43,7 +43,7 @@ run the commands below replacing values for your access and secret keys:
 
 ```sh
 $ export AWS_ACCESS_KEY_ID="anaccesskey"
-export AWS_SECRET_ACCESS_KEY="asecretkey"
+$ export AWS_SECRET_ACCESS_KEY="asecretkey"
 ```
 
 ### Create bucket to storage Terraform state
@@ -77,3 +77,25 @@ run the commands below:
 $ terraform plan
 $ terraform apply
 ```
+
+### Configure AWS S3 Remote State
+
+add in `terraform/main.tf` the content below:
+
+```terraform
+provider "aws" { ... }
+
+terraform {
+  backend "s3" {
+    bucket = "YOUR_BUCKET_NAME"
+    key    = "terraform/state"
+    region = "us-east-1"
+  }
+}
+
+resource "aws_s3_bucket" "terraform-state-storage-s3" { ... }
+```
+
+- change `"YOUR_BUCKET_NAME"` for the name you give to your bucket.
+- run `terraform init` again and answer `yes` for `Do you want to copy existing state to the new backend?`
+- run `terraform plan` and see the message `No changes. Infrastructure is up-to-date.`
