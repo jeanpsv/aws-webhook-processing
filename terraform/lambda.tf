@@ -61,3 +61,11 @@ resource "aws_lambda_function" "callback-handler" {
     aws_cloudwatch_log_group.lambda-callback
   ]
 }
+
+resource "aws_lambda_permission" "callback-handler" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.callback-handler.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.webhook.execution_arn}/*/*"
+}
