@@ -99,3 +99,21 @@ resource "aws_s3_bucket" "terraform-state-storage-s3" { ... }
 - change `"YOUR_BUCKET_NAME"` for the name you give to your bucket.
 - run `terraform init` again and answer `yes` for `Do you want to copy existing state to the new backend?`
 - run `terraform plan` and see the message `No changes. Infrastructure is up-to-date.`
+
+### Create Terraform workspace for development
+
+To fininsh the **Getting Started** section, let's create [Terraform workspace](https://www.terraform.io/docs/state/workspaces.html) for development.
+
+run the commands below:
+
+```sh
+$ terraform workspace list
+```
+
+to see all the workspaces created, and run:
+
+```sh
+$ terraform workspace new development
+```
+
+to create a new workspace called `development`
