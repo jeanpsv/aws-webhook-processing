@@ -5,6 +5,14 @@ provider "aws" {
   profile = "default"
 }
 
+terraform {
+  backend "s3" {
+    bucket = "jeanpsv-aws-webhook-processing"
+    key    = "terraform/state"
+    region = "us-east-1"
+  }
+}
+
 resource "aws_s3_bucket" "terraform-state-storage-s3" {
   bucket = "jeanpsv-aws-webhook-processing"
   region = "us-east-1"
