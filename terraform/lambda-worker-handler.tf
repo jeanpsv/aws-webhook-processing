@@ -83,5 +83,5 @@ resource "aws_lambda_event_source_mapping" "worker-handler" {
   event_source_arn = aws_sqs_queue.webhook-requests.arn
   function_name    = aws_lambda_function.worker-handler.arn
   enabled          = true
-  batch_size = 1
+  batch_size       = 1
 }

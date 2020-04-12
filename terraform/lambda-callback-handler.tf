@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "lambda-callback-cloudwatch-policy-document" {
     effect    = "Allow"
   }
 
-    statement {
+  statement {
     actions = [
       "sqs:SendMessage"
     ]
@@ -66,8 +66,14 @@ resource "aws_lambda_function" "callback-handler" {
   source_code_hash = data.archive_file.lambda-callback-zipfile.output_base64sha256
   depends_on = [
     aws_iam_role_policy_attachment.lambda-callback,
-    aws_cloudwatch_log_group.lambda-callback
+    aws_cloudwatch_log_group.lambda-callback,
+    aws_sqs_queue.webhook-requests
   ]
+  environment {
+    variables = {
+      QUEUE_URL = aws_sqs_queue.webhook-requests.id
+    }
+  }
 }
 
 resource "aws_lambda_permission" "callback-handler" {
@@ -76,13 +82,4 @@ resource "aws_lambda_permission" "callback-handler" {
   function_name = aws_lambda_function.callback-handler.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.webhook.execution_arn}/*/*"
-}
-
-resource "aws_lambda_function_event_invoke_config" "callback-handler" {
-  function_name = aws_lambda_function.callback-handler.function_name
-  destination_config {
-    on_success {
-      destination = aws_sqs_queue.webhook-requests.arn
-    }
-  }
 }
