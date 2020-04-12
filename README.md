@@ -3,6 +3,35 @@ Create infrastructure on AWS to handle webhooks with reliability
 
 ## Getting Started
 
+If you don't want to configure **Terraform Remote State on AWS S3** just remove the code below from `terraform/main.tf`:
+
+```terraform
+terraform {
+  backend "s3" {
+    bucket = "YOUR_BUCKET_NAME"
+    key    = "terraform/state"
+    region = "us-east-1"
+  }
+}
+
+resource "aws_s3_bucket" "terraform-state-storage-s3" {
+  bucket = "YOUR_BUCKET_NAME"
+  region = "us-east-1"
+  versioning {
+    enabled = true
+  }
+  lifecycle {
+    prevent_destroy = false
+  }
+  tags = {
+    app = "webhook-processing"
+  }
+}
+```
+
+and proceed with this tutorial.
+Some steps in the **Getting Started** must not be done.
+
 ### Download Terraform client
 
 - [Terraform Download Page](https://www.terraform.io/downloads.html)
