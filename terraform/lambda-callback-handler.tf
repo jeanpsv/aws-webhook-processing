@@ -30,6 +30,14 @@ data "aws_iam_policy_document" "lambda-callback-cloudwatch-policy-document" {
     resources = ["arn:aws:logs:*:*:*"]
     effect    = "Allow"
   }
+
+    statement {
+    actions = [
+      "sqs:SendMessage"
+    ]
+    resources = ["arn:aws:sqs:*"]
+    effect    = "Allow"
+  }
 }
 
 resource "aws_iam_policy" "lambda-callback-cloudwatch-policy" {
