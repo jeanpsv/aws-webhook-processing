@@ -37,3 +37,22 @@ $ terraform init # to download all dependencies
 $ terraform plan # to plan a modification
 $ terraform apply # to apply this change
 ```
+
+## Architecture
+
+The architecture created is:
+
+![](architecture-nowadays.png)
+
+- API Gateway receive HTTP request (Webhook endpoint) and send to Lambda Callback
+- Lambda Callback write request's body in SQS Queue
+- A new event in SQS Queue start the Lambda Worker
+- Lambda Worker process the message
+
+This architecture works, but we can simplify to:
+
+![](architecture-ideal.png)
+
+- API Gateway receive HTTP request (Webhook endpoint) and write it in SQS Queue
+- A new event in SQS Queue start the Lambda Worker
+- Lambda Worker process the message
