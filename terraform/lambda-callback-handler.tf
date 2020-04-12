@@ -69,3 +69,12 @@ resource "aws_lambda_permission" "callback-handler" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.webhook.execution_arn}/*/*"
 }
+
+resource "aws_lambda_function_event_invoke_config" "callback-handler" {
+  function_name = aws_lambda_function.callback-handler.function_name
+  destination_config {
+    on_success {
+      destination = aws_sqs_queue.webhook-requests.arn
+    }
+  }
+}
