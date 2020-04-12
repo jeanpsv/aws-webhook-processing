@@ -38,21 +38,28 @@ $ terraform plan # to plan a modification
 $ terraform apply # to apply this change
 ```
 
+After the `terraform apply` you can see the API Gateway endpoint in terminal.
+Use this url to make a HTTP POST
+
+## Detroy infrastructure
+
+run `terraform destroy` to clean up.
+
 ## Architecture
 
 The architecture created is:
 
 ![](architecture-nowadays.png)
 
-- API Gateway receive HTTP request (Webhook endpoint) and send to Lambda Callback
-- Lambda Callback write request's body in SQS Queue
-- A new event in SQS Queue start the Lambda Worker
-- Lambda Worker process the message
+- **API Gateway** receive HTTP request (Webhook endpoint) and send to **Lambda Callback**
+- **Lambda Callback** write request's body in **SQS Queue**
+- A new event in **SQS Queue** start the **Lambda Worker**
+- **Lambda Worker** process the message
 
 This architecture works, but we can simplify to:
 
 ![](architecture-ideal.png)
 
-- API Gateway receive HTTP request (Webhook endpoint) and write it in SQS Queue
-- A new event in SQS Queue start the Lambda Worker
-- Lambda Worker process the message
+- **API Gateway** receive HTTP request (Webhook endpoint) and write it in **SQS Queue**
+- A new event in **SQS Queue** start the **Lambda Worker**
+- **Lambda Worker** process the message
