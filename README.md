@@ -50,3 +50,26 @@ provider "aws" {
   profile    = "default"
 }
 ```
+
+### Create bucket to storage Terraform state
+
+add in `terraform/main.tf` the content below:
+
+```terraform
+resource "aws_s3_bucket" "terraform-state-storage-s3" {
+  bucket = "YOUR_BUCKET_NAME"
+  region = "us-east-1"
+  versioning {
+    enabled = true
+  }
+  lifecycle {
+    prevent_destroy = false
+  }
+  tags = {
+    app = "webhook-processing"
+  }
+}
+```
+
+- change `"YOUR_BUCKET_NAME"` for a name you want.
+- `tags` are opcional and you can set the values you want.
