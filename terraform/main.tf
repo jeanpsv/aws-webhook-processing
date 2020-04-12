@@ -5,12 +5,8 @@ provider "aws" {
   profile = "default"
 }
 
-terraform {
-  backend "s3" {
-    bucket = "jeanpsv-aws-webhook-processing"
-    key    = "terraform/state"
-    region = "us-east-1"
-  }
+provider "archive" {
+  version = "~> 1.3"
 }
 
 resource "aws_s3_bucket" "terraform-state-storage-s3" {
@@ -19,9 +15,11 @@ resource "aws_s3_bucket" "terraform-state-storage-s3" {
   versioning {
     enabled = true
   }
+  force_destroy = true
   lifecycle {
     prevent_destroy = false
   }
+
   tags = {
     app = "webhook-processing"
   }
