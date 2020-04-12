@@ -32,6 +32,8 @@ $ export AWS_SECRET_ACCESS_KEY="asecretkey"
 run the commands below:
 
 ```sh
-$ terraform plan
-$ terraform apply
+$ cd terraform/
+$ terraform init # to download all dependencies
+$ terraform plan # to plan a modification
+$ terraform apply # to apply this change
 ```
