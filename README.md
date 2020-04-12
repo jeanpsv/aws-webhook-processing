@@ -14,9 +14,9 @@ create file `terraform/main.tf` and add:
 
 ```terraform
 provider "aws" {
-  version    = "~> 2.0"
-  region     = "us-east-1"
-  profile    = "default"
+  version = "~> 2.0"
+  region  = "us-east-1"
+  profile = "default"
 }
 ```
 
@@ -39,16 +39,11 @@ save `access_key` and `secret_key`
 
 ### Configure AWS Provider authentication
 
-add access and secret key in aws provider configuration
+run the commands below replacing values for your access and secret keys:
 
-```terraform
-provider "aws" {
-  version    = "~> 2.0"
-  region     = "us-east-1"
-  access_key = "aws iam user access key"
-  secret_key = "aws iam user secret key"
-  profile    = "default"
-}
+```sh
+$ export AWS_ACCESS_KEY_ID="anaccesskey"
+export AWS_SECRET_ACCESS_KEY="asecretkey"
 ```
 
 ### Create bucket to storage Terraform state
@@ -73,3 +68,12 @@ resource "aws_s3_bucket" "terraform-state-storage-s3" {
 
 - change `"YOUR_BUCKET_NAME"` for a name you want.
 - `tags` are opcional and you can set the values you want.
+
+### Let's apply Terraform changes
+
+run the commands below:
+
+```sh
+$ terraform plan
+$ terraform apply
+```
