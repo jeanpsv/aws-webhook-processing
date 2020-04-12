@@ -41,7 +41,7 @@ $ terraform apply # to apply this change
 After the `terraform apply` you can see the API Gateway endpoint in terminal.
 Use this url to make a HTTP POST
 
-## Detroy infrastructure
+## Destroy infrastructure
 
 run `terraform destroy` to clean up.
 
